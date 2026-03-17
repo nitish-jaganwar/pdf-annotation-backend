@@ -16,7 +16,11 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 
 		Tomcat tomcat = new Tomcat();
-		tomcat.setPort(8080);
+		// tomcat.setPort(8080);
+		String port = System.getenv("PORT");
+        if (port == null) port = "8080";
+
+tomcat.setPort(Integer.parseInt(port));
 
 		// ✅ Must call getConnector() in Tomcat 9
 		tomcat.getConnector();
