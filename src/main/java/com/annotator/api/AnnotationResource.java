@@ -26,11 +26,35 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class AnnotationResource {
 
 	// Database Connection Helper
-	private Connection getConnection() throws Exception {
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		// Apne MySQL credentials yahan daalein
-		return DriverManager.getConnection("jdbc:mysql://localhost:3306/doc_annotation", "root", "root123");
-	}
+	// private Connection getConnection() throws Exception {
+	// 	Class.forName("com.mysql.cj.jdbc.Driver");
+	// 	// Apne MySQL credentials yahan daalein
+	// 	return DriverManager.getConnection("jdbc:mysql://localhost:3306/doc_annotation", "root", "root123");
+	// }
+    private Connection getConnection() throws Exception {
+
+    Class.forName("com.mysql.cj.jdbc.Driver");
+
+    String host = System.getenv("MYSQLHOST");
+    String port = System.getenv("MYSQLPORT");
+    String db   = System.getenv("MYSQLDATABASE");
+    String user = System.getenv("MYSQLUSER");
+    String pass = System.getenv("MYSQLPASSWORD");
+
+    // fallback for local
+    if (host == null) {
+        host = "localhost";
+        port = "3306";
+        db   = "doc_annotation";
+        user = "root";
+        pass = "root123";
+    }
+
+    String url = "jdbc:mysql://" + host + ":" + port + "/" + db +
+                 "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+
+    return DriverManager.getConnection(url, user, pass);
+}
 
 	// 1. SAVE API (Upsert: Agar docId hai toh update karo, nahi toh insert karo)
 	@POST
