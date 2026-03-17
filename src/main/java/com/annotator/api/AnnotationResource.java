@@ -31,27 +31,30 @@ public class AnnotationResource {
 	// 	// Apne MySQL credentials yahan daalein
 	// 	return DriverManager.getConnection("jdbc:mysql://localhost:3306/doc_annotation", "root", "root123");
 	// }
-    private Connection getConnection() throws Exception {
-
+   private Connection getConnection() throws Exception {
     Class.forName("com.mysql.cj.jdbc.Driver");
 
     String host = System.getenv("MYSQLHOST");
     String port = System.getenv("MYSQLPORT");
-    String db   = System.getenv("MYSQLDATABASE");
+    String db   = System.getenv("MYSQLDATABASE"); // Make sure this matches Railway's Key
     String user = System.getenv("MYSQLUSER");
     String pass = System.getenv("MYSQLPASSWORD");
 
-    // fallback for local
     if (host == null) {
+        System.out.println("Using Local Database Configuration");
         host = "localhost";
         port = "3306";
         db   = "doc_annotation";
         user = "root";
         pass = "root123";
+    } else {
+        System.out.println("Connecting to Railway MySQL at: " + host + ":" + port + "/" + db);
     }
 
+    // added timeouts and disabled SSL for internal networking
     String url = "jdbc:mysql://" + host + ":" + port + "/" + db +
-                 "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+                 "?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC" +
+                 "&connectTimeout=10000&socketTimeout=30000";
 
     return DriverManager.getConnection(url, user, pass);
 }
