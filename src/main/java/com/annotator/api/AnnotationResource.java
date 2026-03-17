@@ -61,27 +61,38 @@ public class AnnotationResource {
 
 	// 1. SAVE API (Upsert: Agar docId hai toh update karo, nahi toh insert karo)
 	@POST
-	@Path("/save/{docId}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response saveAnnotations(@PathParam("docId") String docId, String jsonPayload) {
-		try (Connection conn = getConnection()) {
-			String sql = "INSERT INTO document_annotation (doc_id, json_data) VALUES (?, ?) "
-					+ "ON DUPLICATE KEY UPDATE json_data = ?";
+@Path("/save/{docId}")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+public Response saveAnnotations(@PathParam("docId") String docId, String jsonPayload) {
+    try (Connection conn = getConnection()) {
+        
+        // FIX: Sanitize control characters before saving
+        String sanitized = sanitizeJson(jsonPayload);
+        
+        String sql = "INSERT INTO document_annotation (doc_id, json_data) VALUES (?, ?) "
+                + "ON DUPLICATE KEY UPDATE json_data = ?";
 
-			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, docId);
-			pstmt.setString(2, jsonPayload); // Poora state JSON
-			pstmt.setString(3, jsonPayload);
+        PreparedStatement pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, docId);
+        pstmt.setString(2, sanitized);
+        pstmt.setString(3, sanitized);
 
-			pstmt.executeUpdate();
-			return Response.ok("{\"status\":\"success\", \"message\":\"Saved to DB\"}").build();
+        pstmt.executeUpdate();
+        return Response.ok("{\"status\":\"success\", \"message\":\"Saved to DB\"}").build();
 
-		} catch (Exception e) {
-			e.printStackTrace();
-			return Response.serverError().entity("{\"error\":\"" + e.getMessage() + "\"}").build();
-		}
-	}
+    } catch (Exception e) {
+        e.printStackTrace();
+        return Response.serverError().entity("{\"error\":\"" + e.getMessage() + "\"}").build();
+    }
+}
+
+// Add this helper method to the class
+private String sanitizeJson(String raw) {
+    if (raw == null) return "{}";
+    // Replace literal control characters (0x00-0x1F) except valid JSON whitespace
+    return raw.replaceAll("[\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F]", "");
+}
 
 	// 2. LOAD API (Database se JSON fetch karna)
 	@GET
@@ -89,7 +100,7 @@ public class AnnotationResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response loadAnnotations(@PathParam("docId") String docId) {
 		try (Connection conn = getConnection()) {
-			String sql = "SELECT json_data FROM document_annotations WHERE doc_id = ?";
+			String sql = "SELECT json_data FROM document_annotation WHERE doc_id = ?";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, docId);
 
