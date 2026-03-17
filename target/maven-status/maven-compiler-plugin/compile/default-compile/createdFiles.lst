@@ -1,0 +1,8 @@
+com\annotator\api\Main.class
+com\annotator\ws\AnnotationWebSocket.class
+com\annotator\api\HelloResource.class
+com\annotator\config\JerseyConfig.class
+com\annotator\api\AnnotationResource.class
+com\annotator\db\DatabaseManager.class
+com\annotator\api\AnnotationAPI.class
+com\annotator\config\CorsFilter.class
