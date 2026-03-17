@@ -1,8 +1,9 @@
-C:\Users\NITISH JAGANWAR\eclipse-workspace\annotation-backend\src\main\java\com\annotator\api\AnnotationAPI.java
-C:\Users\NITISH JAGANWAR\eclipse-workspace\annotation-backend\src\main\java\com\annotator\api\AnnotationResource.java
-C:\Users\NITISH JAGANWAR\eclipse-workspace\annotation-backend\src\main\java\com\annotator\api\HelloResource.java
-C:\Users\NITISH JAGANWAR\eclipse-workspace\annotation-backend\src\main\java\com\annotator\api\Main.java
-C:\Users\NITISH JAGANWAR\eclipse-workspace\annotation-backend\src\main\java\com\annotator\config\CorsFilter.java
-C:\Users\NITISH JAGANWAR\eclipse-workspace\annotation-backend\src\main\java\com\annotator\config\JerseyConfig.java
-C:\Users\NITISH JAGANWAR\eclipse-workspace\annotation-backend\src\main\java\com\annotator\db\DatabaseManager.java
-C:\Users\NITISH JAGANWAR\eclipse-workspace\annotation-backend\src\main\java\com\annotator\ws\AnnotationWebSocket.java
+D:\nitish-workspace\annotation-backend\src\main\java\com\annotator\config\JerseyConfig.java
+D:\nitish-workspace\annotation-backend\src\main\java\com\annotator\db\DatabaseManager.java
+D:\nitish-workspace\annotation-backend\src\main\java\com\annotator\api\AnnotationResource.java
+D:\nitish-workspace\annotation-backend\src\main\java\com\annotator\api\Main.java
+D:\nitish-workspace\annotation-backend\src\main\java\com\annotator\ws\AnnotationWebSocket.java
+D:\nitish-workspace\annotation-backend\src\main\java\com\annotator\config\RestConfig.java
+D:\nitish-workspace\annotation-backend\src\main\java\com\annotator\config\CorsFilter.java
+D:\nitish-workspace\annotation-backend\src\main\java\com\annotator\api\AnnotationAPI.java
+D:\nitish-workspace\annotation-backend\src\main\java\com\annotator\api\HelloResource.java
