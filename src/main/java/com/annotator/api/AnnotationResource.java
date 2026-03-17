@@ -66,7 +66,7 @@ public class AnnotationResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response saveAnnotations(@PathParam("docId") String docId, String jsonPayload) {
 		try (Connection conn = getConnection()) {
-			String sql = "INSERT INTO document_annotations (doc_id, json_data) VALUES (?, ?) "
+			String sql = "INSERT INTO document_annotation (doc_id, json_data) VALUES (?, ?) "
 					+ "ON DUPLICATE KEY UPDATE json_data = ?";
 
 			PreparedStatement pstmt = conn.prepareStatement(sql);
